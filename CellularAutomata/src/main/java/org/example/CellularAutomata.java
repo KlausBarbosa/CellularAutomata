@@ -1,9 +1,15 @@
 package org.example;
+
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.PieChartBuilder;
+import org.knowm.xchart.SwingWrapper;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.Random;
 
 public class CellularAutomata {
+
     public static final int SUSCEPTIBLE = 0;
     public static final int INFECTED = 1;
     public static final int CURED = 2;
@@ -47,7 +53,6 @@ public class CellularAutomata {
 
         world = newWorld;
     }
-    
 
     private int countInfectedNeighbors(int x, int y) {
         int count = 0;
@@ -95,9 +100,10 @@ public class CellularAutomata {
     public void saveWorld(String filename) {
         try (FileWriter writer = new FileWriter(filename, true)) {
             for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
+                for (int j = 0; j< size; j++) {
                     int state = world[i][j];
                     char c = '.';
+                
 
                     if (state == SUSCEPTIBLE) {
                         c = 'S';
@@ -108,7 +114,7 @@ public class CellularAutomata {
                     } else if (state == DEAD) {
                         c = 'D';
                     }
-
+    
                     writer.write(c + " ");
                 }
                 writer.write("\n");
@@ -116,6 +122,83 @@ public class CellularAutomata {
             writer.write("\n");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void createChart() {
+        // Cria um gráfico de pizza
+        PieChart chart = new PieChartBuilder().width(800).height(600).title("População do Autômato Celular").build();
+    
+        // Adiciona dados ao gráfico
+        int[] populations = new int[4];
+        int[] deaths = new int[10];
+    
+        for (int i = 0; i < 10; i++) {
+            nextGeneration();
+    
+            populations[SUSCEPTIBLE] = countCells(SUSCEPTIBLE);
+            populations[INFECTED] = countCells(INFECTED);
+            populations[CURED] = countCells(CURED);
+            populations[DEAD] = countCells(DEAD);
+    
+            deaths[i] = countDeaths();
+        }
+    
+        chart.addSeries(getStateName(SUSCEPTIBLE), populations[SUSCEPTIBLE]);
+        chart.addSeries(getStateName(INFECTED), populations[INFECTED]);
+        chart.addSeries(getStateName(CURED), populations[CURED]);
+        chart.addSeries(getStateName(DEAD), populations[DEAD]);
+    
+        // Exibir o gráfico de pizza
+        new SwingWrapper<>(chart).displayChart();
+    
+        // Exibir as informações sobre as mortes
+        System.out.println("Número de mortes por geração:");
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Geração " + (i + 1) + ": " + deaths[i]);
+        }
+    }
+    
+    private int countCells(int state) {
+        int count = 0;
+    
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (world[i][j] == state) {
+                    count++;
+                }
+            }
+        }
+    
+        return count;
+    }
+    
+    private int countDeaths() {
+        int count = 0;
+    
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (world[i][j] == DEAD) {
+                    count++;
+                }
+            }
+        }
+    
+        return count;
+    }
+    
+    private String getStateName(int state) {
+        switch (state) {
+            case SUSCEPTIBLE:
+                return "Suscetível";
+            case INFECTED:
+                return "Infectado";
+            case CURED:
+                return "Curado";
+            case DEAD:
+                return "Morto";
+            default:
+                return "";
         }
     }
 }
