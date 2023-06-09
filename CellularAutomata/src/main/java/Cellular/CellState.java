@@ -1,5 +1,5 @@
 package Cellular;
 
 public enum CellState {
-    Susceptible, Infected, Cured
+    Susceptible, Infected, Recovered
 }

@@ -5,7 +5,7 @@ import Cellular.CellState;
 
 public class Generation {
     private final Cell[][] board;
-    private int cured;
+    private int recovered;
     private int susceptibles;
     private int infected;
 
@@ -29,7 +29,7 @@ public class Generation {
         }
         susceptibleCounter();
         infectedCounter();
-        curedCounter();
+        recoveredCounter();
     }
 
     public void showGeneration() {
@@ -41,7 +41,7 @@ public class Generation {
         }
         System.out.println("\nInfected: " + infected);
         System.out.println("Susceptibles: " + susceptibles);
-        System.out.println("Cured: " + cured);
+        System.out.println("Recovered: " + recovered);
     }
 
     public void susceptibleCounter() {
@@ -64,18 +64,18 @@ public class Generation {
         }
     }
 
-    public void curedCounter() {
+    public void recoveredCounter() {
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
-                if (cell.state == CellState.Cured) {
-                    cured++;
+                if (cell.state == CellState.Recovered) {
+                    recovered++;
                 }
             }
         }
     }
 
-    public int getCured() {
-        return cured;
+    public int getRecovered() {
+        return recovered;
     }
 
     public int getSusceptibles() {
