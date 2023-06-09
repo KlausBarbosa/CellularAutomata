@@ -1,17 +1,15 @@
 package Cellular;
 
 import CellularService.Generation;
-
-import java.util.Arrays;
 import java.util.Random;
 
 public class Cell {
-   private State state;
+   public CellState state;
 
     public Cell() {
         Random random = new Random();
-        int index = random.nextInt(State.values().length);
-        state = State.values()[index];
+        int index = random.nextInt(CellState.values().length);
+        state = CellState.values()[index];
     }
 
     @Override
@@ -22,13 +20,12 @@ public class Cell {
     public static void main(String[] args) {
         Generation generation = new Generation();
         generation.populateBoard();
-        generation.printBoard();
+        generation.showGeneration();
 
+        System.out.println("\n\nCured: " + generation.curedCounter());
+        System.out.println("Infected: " + generation.infectedCounter());
+        System.out.println("Susceptible: " + generation.susceptibleCounter());
     }
-}
-
-enum State {
-    Susceptible, Infected, Cured
 }
 
 
