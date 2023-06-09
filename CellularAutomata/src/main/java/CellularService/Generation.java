@@ -5,6 +5,9 @@ import Cellular.CellState;
 
 public class Generation {
     private final Cell[][] board;
+    private int cured;
+    private int susceptibles;
+    private int infected;
 
 
     public Generation() {
@@ -36,8 +39,6 @@ public class Generation {
     }
 
     public int susceptibleCounter() {
-        int susceptibles = 0;
-
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.state == CellState.Susceptible ) {
@@ -49,8 +50,6 @@ public class Generation {
     }
 
     public int infectedCounter() {
-        int infected = 0;
-
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.state == CellState.Infected) {
@@ -62,8 +61,6 @@ public class Generation {
     }
 
     public int curedCounter() {
-        int cured = 0;
-
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.state == CellState.Cured) {
