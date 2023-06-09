@@ -21,6 +21,9 @@ public class Cell {
         Generation generation = new Generation(5, 10);
         generation.populateBoard();
         generation.showGeneration();
+        System.out.println("\nInfected: " + generation.getInfected());
+        System.out.println("Susceptibles: " + generation.getSusceptibles());
+        System.out.println("Cured: " + generation.getCured());
     }
 }
 

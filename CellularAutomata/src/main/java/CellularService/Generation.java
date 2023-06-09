@@ -73,5 +73,16 @@ public class Generation {
             }
         }
     }
-}
 
+    public int getCured() {
+        return cured;
+    }
+
+    public int getSusceptibles() {
+        return susceptibles;
+    }
+
+    public int getInfected() {
+        return infected;
+    }
+}
