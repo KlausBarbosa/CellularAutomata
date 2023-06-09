@@ -18,13 +18,9 @@ public class Cell {
     }
 
     public static void main(String[] args) {
-        Generation generation = new Generation();
+        Generation generation = new Generation(5, 10);
         generation.populateBoard();
         generation.showGeneration();
-
-        System.out.println("\n\nCured: " + generation.curedCounter());
-        System.out.println("Infected: " + generation.infectedCounter());
-        System.out.println("Susceptible: " + generation.susceptibleCounter());
     }
 }
 
