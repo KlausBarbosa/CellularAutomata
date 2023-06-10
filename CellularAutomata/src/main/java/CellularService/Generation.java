@@ -35,7 +35,7 @@ public class Generation {
     public void showGeneration() {
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
-                System.out.print("[" + cell.toString() + "]" + " ");
+                System.out.print("[" + cell.toString() + "]");
             }
             System.out.println();
         }
@@ -47,7 +47,7 @@ public class Generation {
     public void susceptibleCounter() {
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
-                if (cell.state == CellState.Susceptible ) {
+                if (cell.state == CellState.S ) {
                     susceptibles++;
                 }
             }
@@ -57,7 +57,7 @@ public class Generation {
     public void infectedCounter() {
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
-                if (cell.state == CellState.Infected) {
+                if (cell.state == CellState.I) {
                     infected++;
                 }
             }
@@ -67,7 +67,7 @@ public class Generation {
     public void recoveredCounter() {
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
-                if (cell.state == CellState.Recovered) {
+                if (cell.state == CellState.R) {
                     recovered++;
                 }
             }
