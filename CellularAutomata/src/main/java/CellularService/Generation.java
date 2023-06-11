@@ -4,7 +4,7 @@ import Cellular.Cell;
 import Cellular.CellState;
 
 public class Generation {
-    private final Cell[][] board;
+    private Cell[][] board;
     private int recovered;
     private int susceptibles;
     private int infected;
@@ -27,9 +27,6 @@ public class Generation {
                 board[i][j] = new Cell();
             }
         }
-        susceptibleCounter();
-        infectedCounter();
-        recoveredCounter();
     }
 
     public void showGeneration() {
@@ -39,12 +36,19 @@ public class Generation {
             }
             System.out.println();
         }
+
+        susceptibles = susceptibleCounter();
+        infected = infectedCounter();
+        recovered = recoveredCounter();
+
         System.out.println("\nInfected: " + infected);
         System.out.println("Susceptibles: " + susceptibles);
-        System.out.println("Recovered: " + recovered);
+        System.out.println("Recovered: " + recovered + "\n\n");
     }
 
-    public void susceptibleCounter() {
+    public int susceptibleCounter() {
+        susceptibles = 0;
+
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.state == CellState.S ) {
@@ -52,9 +56,12 @@ public class Generation {
                 }
             }
         }
+        return susceptibles;
     }
 
-    public void infectedCounter() {
+    public int infectedCounter() {
+        infected = 0;
+
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.state == CellState.I) {
@@ -62,9 +69,12 @@ public class Generation {
                 }
             }
         }
+        return infected;
     }
 
-    public void recoveredCounter() {
+    public int recoveredCounter() {
+        recovered = 0;
+
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.state == CellState.R) {
@@ -72,17 +82,86 @@ public class Generation {
                 }
             }
         }
-    }
-
-    public int getRecovered() {
         return recovered;
     }
 
-    public int getSusceptibles() {
-        return susceptibles;
+    public void nextGeneration() {
+        int rows = board.length;
+        int columns = board[0].length;
+
+        Cell[][] newBoard = new Cell[rows][columns];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                Cell currentCell = board[i][j];
+                CellState currentCellState = currentCell.state;
+                int infectedNeighbors = countInfectedNeighbors(i, j);
+
+                if (currentCellState == CellState.S) {
+                    //Probabilidade de S -> R
+                    if (Math.random() < 0.8) {
+                        newBoard[i][j] = new Cell(CellState.R);
+
+                    //Probabilidade de S -> I
+                    } else if (Math.random() < 0.02) {
+                        newBoard[i][j] = new Cell(CellState.I);
+
+                        //Probabilidade de S -> I por contato com vizinho
+                    } else if (infectedNeighbors > 0 && Math.random() < 0.3 * infectedNeighbors) {
+                        newBoard[i][j] = new Cell(CellState.I);
+
+                    } else {
+                        newBoard[i][j] = currentCell;
+                    }
+
+                } else if (currentCellState == CellState.I) {
+                    //Probabilidade de I -> R
+                    if (Math.random() < 0.2) {
+                        newBoard[i][j] = new Cell(CellState.R);
+
+                        //Probabilidade de I -> S (Morrer)
+                    } else if (Math.random() < 0.1) {
+                        newBoard[i][j] = new Cell(CellState.S);
+
+                    } else {
+                        newBoard[i][j] = currentCell;
+                    }
+
+                } else if (currentCellState == CellState.R) {
+                    //Probabilidade de R -> S (morrer por outras causas)
+                    if (Math.random() < 0.02) {
+                        newBoard[i][j] = new Cell(CellState.S);
+
+                    } else {
+                        newBoard[i][j] = currentCell;
+                    }
+                }
+            }
+        }
+
+        board = newBoard;
     }
 
-    public int getInfected() {
-        return infected;
+    private int countInfectedNeighbors(int row, int colum) {
+        int count = 0;
+        int rows = board.length;
+        int columns = board[0].length;
+
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = colum - 1; j <= colum + 1; j++) {
+                int neighborRow = (i + rows) % rows;
+                int neighborColum = (j + columns) % columns;
+
+                if (board[neighborRow][neighborColum].state == CellState.I) {
+                    count++;
+                }
+            }
+        }
+
+        if (board[row][colum].state == CellState.I) {
+            count--;
+        }
+
+        return count;
     }
 }

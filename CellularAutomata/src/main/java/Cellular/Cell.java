@@ -12,6 +12,10 @@ public class Cell {
         state = CellState.values()[index];
     }
 
+    public Cell(CellState state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return state.toString();
@@ -19,11 +23,24 @@ public class Cell {
 
     public static void main(String[] args) {
         Generation generation = new Generation(5, 10);
+
         generation.populateBoard();
         generation.showGeneration();
-        System.out.println("\nInfected: " + generation.getInfected());
-        System.out.println("Susceptibles: " + generation.getSusceptibles());
-        System.out.println("Recovered: " + generation.getRecovered());
+
+        generation.nextGeneration();
+        generation.showGeneration();
+
+        generation.nextGeneration();
+        generation.showGeneration();
+
+        generation.nextGeneration();
+        generation.showGeneration();
+
+        generation.nextGeneration();
+        generation.showGeneration();
+
+        generation.nextGeneration();
+        generation.showGeneration();
     }
 }
 
