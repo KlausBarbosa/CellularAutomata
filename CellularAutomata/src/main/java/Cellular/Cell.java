@@ -20,30 +20,6 @@ public class Cell {
     public String toString() {
         return state.toString();
     }
-
-    public static void main(String[] args) {
-        Generation generation = new Generation(5, 10);
-
-        generation.populateBoard();
-        generation.showGeneration();
-
-        generation.nextGeneration();
-        generation.showGeneration();
-
-        generation.nextGeneration();
-        generation.showGeneration();
-
-        generation.nextGeneration();
-        generation.showGeneration();
-
-        generation.nextGeneration();
-        generation.showGeneration();
-
-        generation.nextGeneration();
-        generation.showGeneration();
-
-
-    }
 }
 
 
