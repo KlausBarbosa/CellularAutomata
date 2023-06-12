@@ -41,6 +41,8 @@ public class Cell {
 
         generation.nextGeneration();
         generation.showGeneration();
+
+
     }
 }
 
