@@ -3,30 +3,33 @@ package CellularService;
 import Cellular.Cell;
 import Cellular.CellState;
 
+import java.util.Random;
+
 public class Generation {
     private Cell[][] board;
+    private final int matrixSize;
     private int recovered;
     private int susceptibles;
     private int infected;
 
 
-    public Generation() {
-        board = new Cell[3][3];
-    }
-    public Generation(int rows, int columns) {
-        board = new Cell[rows][columns];
+    public Generation(int n) {
+        matrixSize = n;
+        board = new Cell[matrixSize][matrixSize];
     }
 
     public void populateBoard() {
-        int rows = board.length;
-
-        for (int i = 0; i < rows; i++) {
-            int columns = board[i].length;
-
-            for (int j = 0; j < columns; j++) {
-                board[i][j] = new Cell();
+        for(int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                board[i][j] = new Cell(CellState.S);
             }
         }
+
+
+        Random random = new Random();
+        int randomRow = random.nextInt(matrixSize);
+        int randomColum = random.nextInt(matrixSize);
+        board[randomRow][randomColum] = new Cell(CellState.I);
     }
 
     public void showGeneration() {
@@ -85,29 +88,28 @@ public class Generation {
         return recovered;
     }
 
-    public void nextGeneration() {
-        int rows = board.length;
-        int columns = board[0].length;
+    public void nextGeneration(double Pv, double Ps, double Pc, double Pd, double Po, double k) {
+        Cell[][] newBoard = new Cell[matrixSize][matrixSize];
 
-        Cell[][] newBoard = new Cell[rows][columns];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
                 Cell currentCell = board[i][j];
                 CellState currentCellState = currentCell.state;
+
                 int infectedNeighbors = countInfectedNeighbors(i, j);
+                double Pi = 1 - Math.exp(k * infectedNeighbors);
 
                 if (currentCellState == CellState.S) {
-                    //Probabilidade de S -> R
-                    if (Math.random() < 0.8) {
+                    //Probabilidade de S -> R (vacina)
+                    if (Math.random() < Pv) {
                         newBoard[i][j] = new Cell(CellState.R);
 
-                    //Probabilidade de S -> I
-                    } else if (Math.random() < 0.02) {
+                    //Probabilidade de S -> I (infecção espontânea)
+                    } else if (Math.random() < Ps) {
                         newBoard[i][j] = new Cell(CellState.I);
 
-                        //Probabilidade de S -> I por contato com vizinho
-                    } else if (infectedNeighbors > 0 && Math.random() < 0.3 * infectedNeighbors) {
+                        //Probabilidade de S + vI -> I + vI (infecção por contato com vizinho)
+                    } else if (infectedNeighbors > 0 && Math.random() < Pi) {
                         newBoard[i][j] = new Cell(CellState.I);
 
                     } else {
@@ -115,12 +117,12 @@ public class Generation {
                     }
 
                 } else if (currentCellState == CellState.I) {
-                    //Probabilidade de I -> R
-                    if (Math.random() < 0.2) {
+                    //Probabilidade de I -> R (Recuperado)
+                    if (Math.random() < Pc) {
                         newBoard[i][j] = new Cell(CellState.R);
 
                         //Probabilidade de I -> S (Morrer)
-                    } else if (Math.random() < 0.1) {
+                    } else if (Math.random() < Pd) {
                         newBoard[i][j] = new Cell(CellState.S);
 
                     } else {
@@ -129,7 +131,7 @@ public class Generation {
 
                 } else if (currentCellState == CellState.R) {
                     //Probabilidade de R -> S (morrer por outras causas)
-                    if (Math.random() < 0.02) {
+                    if (Math.random() < Po) {
                         newBoard[i][j] = new Cell(CellState.S);
 
                     } else {
@@ -144,24 +146,17 @@ public class Generation {
 
     private int countInfectedNeighbors(int row, int colum) {
         int count = 0;
-        int rows = board.length;
-        int columns = board[0].length;
 
         for (int i = row - 1; i <= row + 1; i++) {
             for (int j = colum - 1; j <= colum + 1; j++) {
-                int neighborRow = (i + rows) % rows;
-                int neighborColum = (j + columns) % columns;
+                int neighborRow = (i + matrixSize) % matrixSize;
+                int neighborColum = (j + matrixSize) % matrixSize;
 
-                if (board[neighborRow][neighborColum].state == CellState.I) {
+                if (!(i == row && j == colum) && board[neighborRow][neighborColum].state == CellState.I) {
                     count++;
                 }
             }
         }
-
-        if (board[row][colum].state == CellState.I) {
-            count--;
-        }
-
         return count;
     }
 }

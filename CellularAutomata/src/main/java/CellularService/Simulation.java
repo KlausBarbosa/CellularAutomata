@@ -7,7 +7,15 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Simulation {
     public static void main(String[] args) {
-        Generation generation = new Generation(5, 10);
+        int matrixSize = 14;
+        double Pv = 0.03;
+        double Ps = 0.01;
+        double Pc = 0.6;
+        double Pd = 0.3;
+        double Po = 0.1;
+        double k = 1;
+
+        Generation generation = new Generation(matrixSize);
         generation.populateBoard();
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -24,7 +32,7 @@ public class Simulation {
             dataset.addValue(infectedCount, "Infected", "Generation " + i);
             dataset.addValue(recoveredCount, "Recovered", "Generation " + i);
 
-            generation.nextGeneration();
+            generation.nextGeneration(Pv, Ps, Pc, Pd, Po, k);
         }
 
         JFreeChart chart = ChartFactory.createLineChart(
