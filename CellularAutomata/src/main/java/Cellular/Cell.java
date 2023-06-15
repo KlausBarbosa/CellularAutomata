@@ -1,7 +1,5 @@
 package Cellular;
 
-import java.util.Random;
-
 public class Cell {
    public CellState state;
 
