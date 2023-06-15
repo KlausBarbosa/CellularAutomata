@@ -97,7 +97,7 @@ public class Generation {
                 CellState currentCellState = currentCell.state;
 
                 int infectedNeighbors = countInfectedNeighbors(i, j);
-                double Pi = 1 - Math.exp(k * infectedNeighbors);
+                double Pi = 1 - Math.exp(-k * infectedNeighbors);
 
                 if (currentCellState == CellState.S) {
                     //Probabilidade de S -> R (vacina)
