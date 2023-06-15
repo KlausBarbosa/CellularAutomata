@@ -2,10 +2,7 @@ import CellularService.Generation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.data.category.DefaultCategoryDataset;
-
-import java.text.NumberFormat;
 
 public class Simulation {
     public static void main(String[] args) {
