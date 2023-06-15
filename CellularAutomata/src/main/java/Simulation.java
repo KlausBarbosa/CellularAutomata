@@ -2,11 +2,14 @@ import CellularService.Generation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import java.text.NumberFormat;
 
 public class Simulation {
     public static void main(String[] args) {
-        int matrixSize = 14;
+        int matrixSize = 5;
         double Pv = 0.03;
         double Ps = 0.01;
         double Pc = 0.6;
@@ -19,6 +22,8 @@ public class Simulation {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+
+        int totalCells = matrixSize * matrixSize;
         int numGenerations = 100;
         for (int i = 0; i < numGenerations; i++) {
             int susceptibleCount = generation.susceptibleCounter();
@@ -27,9 +32,13 @@ public class Simulation {
 
             generation.showGeneration();
 
-            dataset.addValue(susceptibleCount, "Susceptible", "Generation " + i);
-            dataset.addValue(infectedCount, "Infected", "Generation " + i);
-            dataset.addValue(recoveredCount, "Recovered", "Generation " + i);
+            double susceptiblePercentage = (double) susceptibleCount / totalCells * 100;
+            double infectedPercentage = (double) infectedCount / totalCells * 100;
+            double recoveredPercentage = (double) recoveredCount / totalCells * 100;
+
+            dataset.addValue(susceptiblePercentage, "Susceptible", "Generation " + i);
+            dataset.addValue(infectedPercentage, "Infected", "Generation " + i);
+            dataset.addValue(recoveredPercentage, "Recovered", "Generation " + i);
 
             generation.nextGeneration(Pv, Ps, Pc, Pd, Po, k);
         }
@@ -37,9 +46,10 @@ public class Simulation {
         JFreeChart chart = ChartFactory.createLineChart(
                 "Cell State Evolution",
                 "Generation",
-                "Cell Count",
+                "Cell Percentage",
                 dataset
         );
+
 
         ChartFrame frame = new ChartFrame("Cell State Evolution", chart);
         frame.pack();
