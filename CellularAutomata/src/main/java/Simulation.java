@@ -19,7 +19,7 @@ public class Simulation {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        int numGenerations = 13;
+        int numGenerations = 20;
         for (int i = 0; i < numGenerations; i++) {
             int susceptibleCount = generation.susceptibleCounter();
             int infectedCount = generation.infectedCounter();
