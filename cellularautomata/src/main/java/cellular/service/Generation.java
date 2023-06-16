@@ -11,7 +11,7 @@ public class Generation {
     private int recovered;
     private int susceptibles;
     private int infected;
-    private int totalCells;
+    private final int totalCells;
 
 
     public Generation(int n) {

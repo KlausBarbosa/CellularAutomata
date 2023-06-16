@@ -20,7 +20,6 @@ public class Simulation {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 
-        int totalCells = matrixSize * matrixSize;
         int numGenerations = 100;
         for (int i = 0; i < numGenerations; i++) {
             generation.satateCounter();
@@ -29,9 +28,9 @@ public class Simulation {
             int infectedCount = generation.getInfected();
             int recoveredCount = generation.getRecovered();
 
-            double susceptiblePercentage = (double) susceptibleCount / totalCells * 100;
-            double infectedPercentage = (double) infectedCount / totalCells * 100;
-            double recoveredPercentage = (double) recoveredCount / totalCells * 100;
+            double susceptiblePercentage = (double) susceptibleCount / generation.getTotalCells() * 100;
+            double infectedPercentage = (double) infectedCount / generation.getTotalCells() * 100;
+            double recoveredPercentage = (double) recoveredCount / generation.getTotalCells() * 100;
 
             dataset.addValue(susceptiblePercentage, "Susceptible", "Generation " + i);
             dataset.addValue(infectedPercentage, "Infected", "Generation " + i);
