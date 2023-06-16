@@ -1,4 +1,4 @@
-# Cellular Automata
+# cellular Automata
 
 
 <p align="center">Criado para atender o projeto de Estrutura de Dados do Curso de Análise e Desenvolvimento de Sistemas - (IFSP) Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (2º semestre).</p>
@@ -51,8 +51,8 @@ Estados possíveis:
 ### Requisitos
 Para auxílio no levantamento de requisitos assim como entendimento do contexto em questão, foram utilizadas algumas fontes, incluindo alguns papers de artigos/pesquisas voltadas ao assunto.
 * [The impact of imported cases on the persistence of contagious diseases - Science Direct](https://www.sciencedirect.com/science/article/abs/pii/S1476945X19300972?via%3Dihub)
-* [Diagrama de Classe Cellular Automata (Prof. Gustavo Fortunato Puga)](img.png)
-* [Cellular Automata - The Nature of Code](https://natureofcode.com/book/chapter-7-cellular-automata/)
+* [Diagrama de Classe cellular Automata (Prof. Gustavo Fortunato Puga)](img.png)
+* [cellular Automata - The Nature of Code](https://natureofcode.com/book/chapter-7-cellular-automata/)
 
 
 ### 🛠 Tecnologias
@@ -69,7 +69,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 ### Status do Projeto
 
 <h4 align="center"> 
-	🦠  Cellular Automata - Finalizado ✅  🦠
+	🦠  cellular Automata - Finalizado ✅  🦠
 </h4>
 
 ### Features

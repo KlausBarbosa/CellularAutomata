@@ -1,7 +1,7 @@
-package CellularService;
+package cellular.service;
 
-import Cellular.Cell;
-import Cellular.CellState;
+import cellular.Cell;
+import cellular.CellState;
 
 import java.util.Random;
 
@@ -11,11 +11,13 @@ public class Generation {
     private int recovered;
     private int susceptibles;
     private int infected;
+    private int totalCells;
 
 
     public Generation(int n) {
         matrixSize = n;
         board = new Cell[matrixSize][matrixSize];
+        totalCells = n * n;
     }
 
     public void populateBoard() {
@@ -25,12 +27,12 @@ public class Generation {
             }
         }
 
-
         Random random = new Random();
         int randomRow = random.nextInt(matrixSize);
         int randomColum = random.nextInt(matrixSize);
         board[randomRow][randomColum] = new Cell(CellState.I);
     }
+
 
     public void showGeneration() {
         for (Cell[] cells : board) {
@@ -40,52 +42,31 @@ public class Generation {
             System.out.println();
         }
 
-        susceptibles = susceptibleCounter();
-        infected = infectedCounter();
-        recovered = recoveredCounter();
+        satateCounter();
 
         System.out.println("\nInfected: " + infected);
         System.out.println("Susceptibles: " + susceptibles);
         System.out.println("Recovered: " + recovered + "\n\n");
     }
 
-    public int susceptibleCounter() {
+    public void satateCounter() {
         susceptibles = 0;
-
-        for (Cell[] cells : board) {
-            for (Cell cell : cells) {
-                if (cell.state == CellState.S ) {
-                    susceptibles++;
-                }
-            }
-        }
-        return susceptibles;
-    }
-
-    public int infectedCounter() {
         infected = 0;
-
-        for (Cell[] cells : board) {
-            for (Cell cell : cells) {
-                if (cell.state == CellState.I) {
-                    infected++;
-                }
-            }
-        }
-        return infected;
-    }
-
-    public int recoveredCounter() {
         recovered = 0;
 
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
-                if (cell.state == CellState.R) {
+                if (cell.state == CellState.S) {
+                    susceptibles++;
+
+                } else if (cell.state == CellState.I) {
+                    infected++;
+
+                } else {
                     recovered++;
                 }
             }
         }
-        return recovered;
     }
 
     public void nextGeneration(double Pv, double Ps, double Pc, double Pd, double Po, double k) {
@@ -104,7 +85,7 @@ public class Generation {
                     if (Math.random() < Pv) {
                         newBoard[i][j] = new Cell(CellState.R);
 
-                    //Probabilidade de S -> I (infecção espontânea)
+                        //Probabilidade de S -> I (infecção espontânea)
                     } else if (Math.random() < Ps) {
                         newBoard[i][j] = new Cell(CellState.I);
 
@@ -158,5 +139,21 @@ public class Generation {
             }
         }
         return count;
+    }
+
+    public int getSusceptibles() {
+        return susceptibles;
+    }
+
+    public int getInfected() {
+        return infected;
+    }
+
+    public int getRecovered() {
+        return recovered;
+    }
+
+    public int getTotalCells() {
+        return totalCells;
     }
 }

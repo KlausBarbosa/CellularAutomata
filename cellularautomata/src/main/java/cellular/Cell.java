@@ -1,4 +1,4 @@
-package Cellular;
+package cellular;
 
 public class Cell {
    public CellState state;
