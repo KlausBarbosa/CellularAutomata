@@ -10,22 +10,6 @@ Tabela de conteúdos
 =================
 <!--ts-->
 * [Sobre](#Sobre)
-
-[//]: # (* [Tabela de Conteudo]&#40;#tabela-de-conteudo&#41;)
-[//]: # (* [Instalação]&#40;#instalacao&#41;)
-
-[//]: # (* [Como usar]&#40;#como-usar&#41;)
-
-[//]: # (    * [Pre Requisitos]&#40;#pre-requisitos&#41;)
-
-[//]: # (    * [Local files]&#40;#local-files&#41;)
-
-[//]: # (    * [Manual do Usuario]&#40;#user-manual&#41;)
-
-[//]: # (    * [Multiple files]&#40;#multiple-files&#41;)
-
-[//]: # (    * [Combo]&#40;#combo&#41;)
-* [Tests](#testes)
 * [Requisitos](#requisitos)
 * [Tecnologias](#-tecnologias)
 * [Status](#status-do-projeto)
@@ -46,7 +30,7 @@ Manual do Usuário - Regras para Taxa de Infecção
 Estados possíveis:
 * S - Suscetível (Não Infectado, suscetível a infecções)
 * I - Infectada (Infectado pelo vírus, podendo infectar seus vizinhos/células adjacentes)
-* C - Curada (Célula já infectada anteriormente e que foi curada)
+* R - Recuperada (Célula imune à infecção)
 
 ### Requisitos
 Para auxílio no levantamento de requisitos assim como entendimento do contexto em questão, foram utilizadas algumas fontes, incluindo alguns papers de artigos/pesquisas voltadas ao assunto.
@@ -62,7 +46,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Java](https://www.java.com/)
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/)
 - [Maven]()
-- [xChart](https://knowm.org/open-source/xchart/)
 - [jFree Chart](https://www.jfree.org/jfreechart/)
 
 
